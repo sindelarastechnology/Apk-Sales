@@ -58,13 +58,13 @@
     fetch('version.json')
       .then(response => response.json())
       .then(data => {
-        const { latest_version, apk_url, changelog } = data;
+        const { latest_version, link, changelog } = data;
 
         document.getElementById('app-title').textContent = 'Sales App - v' + latest_version;
         document.getElementById('app-desc').textContent = 'Download aplikasi versi terbaru di bawah ini.';
         
         const btn = document.getElementById('download-button');
-        btn.href = apk_url;
+        btn.href = link;
         btn.style.display = 'inline-block';
 
         document.getElementById('changelog').textContent = changelog;
