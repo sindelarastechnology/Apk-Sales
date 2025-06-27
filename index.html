@@ -3,31 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Download APK - Sales App</title>
+  <title>Download Aplikasi Sales</title>
   <style>
     body {
       font-family: sans-serif;
-      text-align: center;
+      background-color: #f8f8f8;
       padding: 40px;
-      background-color: #f5f5f5;
+      text-align: center;
     }
-    img.logo {
+    .logo {
       width: 150px;
       margin-bottom: 20px;
     }
     .card {
       background: white;
-      padding: 30px;
       max-width: 500px;
       margin: auto;
+      padding: 30px;
       border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
     a.button {
       display: inline-block;
       margin-top: 20px;
       padding: 12px 20px;
-      background: #e74c3c;
+      background: #d32f2f;
       color: white;
       text-decoration: none;
       border-radius: 8px;
@@ -40,20 +40,39 @@
   </style>
 </head>
 <body>
-  <img src="LogoSintek.png" alt="Logo Sindelaras" class="logo" />
+  <img src="LogoSintek.png" alt="Logo Sindelaras Technology" class="logo" />
   <div class="card">
-    <h2>Sales App - v1.0.0</h2>
-    <p>Aplikasi untuk tim sales. Download versi terbaru di bawah ini:</p>
-    <a class="button" href="app-v1.0.0.apk" download>📥 Download APK</a>
+    <h2 id="app-title">Memuat versi...</h2>
+    <p id="app-desc">Harap tunggu sebentar.</p>
+    <a id="download-button" class="button" href="#" style="display:none;">📥 Download APK</a>
 
-    <div class="changelog">
+    <div class="changelog" id="changelog-section" style="display:none;">
       <h3>Changelog:</h3>
-      <ul>
-        <li>Versi awal rilis</li>
-        <li>Login dan validasi ke server</li>
-        <li>Cek update otomatis dari GitHub</li>
-      </ul>
+      <p id="changelog"></p>
     </div>
   </div>
+
+  <script>
+    fetch('version.json')
+      .then(response => response.json())
+      .then(data => {
+        const { latest_version, apk_url, changelog } = data;
+
+        document.getElementById('app-title').textContent = 'Sales App - v' + latest_version;
+        document.getElementById('app-desc').textContent = 'Download aplikasi versi terbaru di bawah ini.';
+        
+        const btn = document.getElementById('download-button');
+        btn.href = apk_url;
+        btn.style.display = 'inline-block';
+
+        document.getElementById('changelog').textContent = changelog;
+        document.getElementById('changelog-section').style.display = 'block';
+      })
+      .catch(error => {
+        document.getElementById('app-title').textContent = 'Gagal memuat versi.';
+        document.getElementById('app-desc').textContent = 'Terjadi kesalahan saat mengambil data versi.json.';
+        console.error('Error:', error);
+      });
+  </script>
 </body>
 </html>
